@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <PublishAot>true</PublishAot>
+        <IsPackable>true</IsPackable>
+
+        <PackageId>NativeForms.Maui</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>Ryan Buckley</Authors>
+        <Description>A set of minimal bindings to platform-specific form controls.</Description>
+        <PackageTags>Maui, .NET Maui, Forms, Native</PackageTags>
+        <PackageProjectUrl>https://github.com/rabuckley/NativeForms</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/rabuckley/NativeForms</RepositoryUrl>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENCE</PackageLicenseFile>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="readme.md" Pack="true" PackagePath="" />
+        <None Include="../../LICENCE" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" />
+    </ItemGroup>
+
+    <!-- Android -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-android')) != true">
+        <Compile Remove="**\*.Android.cs" />
+        <None Include="**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+        <Compile Update="Platforms\iOS\NativeDatePickerView.cs">
+            <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+        </Compile>
+        <Compile Update="Platforms\iOS\NativeTimePickerView.cs">
+            <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+        </Compile>
+        <Compile Update="Platforms\Android\NativeTimePickerView.cs">
+            <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+        </Compile>
+        <Compile Update="Platforms\MacCatalyst\NativeDatePickerView.cs">
+            <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+        </Compile>
+        <Compile Update="Platforms\MacCatalyst\NativeDateTimePickerView.cs">
+            <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+        </Compile>
+        <Compile Update="Platforms\MacCatalyst\NativeTimePickerView.cs">
+            <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+        </Compile>
+    </ItemGroup>
+
+    <!-- iOS and Mac Catalyst -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net9.0-ios')) != true AND $(TargetFramework.StartsWith('net9.0-maccatalyst')) != true">
+        <Compile Remove="**\*.MaciOS.cs" />
+        <None Include="**\*.MaciOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
+
+    <!-- Windows -->
+    <ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true ">
+        <Compile Remove="**\*.Windows.cs" />
+        <None Include="**\*.Windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
+
+</Project>
