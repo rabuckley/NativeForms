@@ -4,40 +4,40 @@ public sealed partial class NativeDateTimePicker : View
 {
     public static readonly BindableProperty DateTimeProperty = BindableProperty.Create(
         nameof(DateTime),
-        typeof(DateTimeOffset),
+        typeof(DateTime),
         typeof(NativeDateTimePicker),
-        DateTimeOffset.MinValue,
+        System.DateTime.Now,
         defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty MaximumDateTimeProperty = BindableProperty.Create(
         nameof(MaximumDateTime),
-        typeof(DateTimeOffset),
+        typeof(DateTime),
         typeof(NativeDateTimePicker),
-        DateTimeOffset.MaxValue,
+        System.DateTime.MaxValue,
         defaultBindingMode: BindingMode.OneWay);
 
     public static readonly BindableProperty MinimumDateTimeProperty = BindableProperty.Create(
         nameof(MinimumDateTime),
-        typeof(DateTimeOffset),
+        typeof(DateTime),
         typeof(NativeDateTimePicker),
-        DateTimeOffset.MinValue,
+        System.DateTime.MinValue,
         defaultBindingMode: BindingMode.OneWay);
 
-    public DateTimeOffset DateTime
+    public DateTime DateTime
     {
-        get => (DateTimeOffset)GetValue(DateTimeProperty);
+        get => (DateTime)GetValue(DateTimeProperty);
         set => SetValue(DateTimeProperty, value);
     }
 
-    public DateTimeOffset MaximumDateTime
+    public DateTime MaximumDateTime
     {
-        get => (DateTimeOffset)GetValue(MaximumDateTimeProperty);
+        get => (DateTime)GetValue(MaximumDateTimeProperty);
         set => SetValue(MaximumDateTimeProperty, value);
     }
 
-    public DateTimeOffset MinimumDateTime
+    public DateTime MinimumDateTime
     {
-        get => (DateTimeOffset)GetValue(MinimumDateTimeProperty);
+        get => (DateTime)GetValue(MinimumDateTimeProperty);
         set => SetValue(MinimumDateTimeProperty, value);
     }
 }

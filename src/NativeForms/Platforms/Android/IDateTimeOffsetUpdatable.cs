@@ -1,6 +1,6 @@
 namespace NativeForms.Platforms.Android;
 
-internal interface IDateTimeOffsetUpdatable
+internal interface IDateTimeUpdatable
 {
-    void UpdateDate(DateTimeOffset value);
+    void UpdateDate(DateTime value);
 }

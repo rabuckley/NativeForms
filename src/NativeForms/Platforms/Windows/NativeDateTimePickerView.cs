@@ -38,7 +38,7 @@ public sealed partial class NativeDateTimePickerView : Grid, IDisposable
 
     private void OnDatePickerDateChanged(object? sender, DatePickerValueChangedEventArgs e)
     {
-        _virtualView.DateTime = e.NewDate;
+        _virtualView.DateTime = e.NewDate.DateTime;
     }
 
     private void OnTimePickerTimeChanged(object? sender, TimePickerValueChangedEventArgs e)
@@ -46,18 +46,18 @@ public sealed partial class NativeDateTimePickerView : Grid, IDisposable
         _virtualView.DateTime = _virtualView.DateTime.Date + e.NewTime;
     }
 
-    public void UpdateDate(DateTimeOffset date)
+    public void UpdateDate(DateTime date)
     {
         _datePicker.Date = date.Date;
         _timePicker.Time = date.TimeOfDay;
     }
 
-    public void UpdateMaximumDate(DateTimeOffset maximumDate)
+    public void UpdateMaximumDate(DateTime maximumDate)
     {
         _datePicker.MaxYear = maximumDate;
     }
 
-    public void UpdateMinimumDate(DateTimeOffset minimumDate)
+    public void UpdateMinimumDate(DateTime minimumDate)
     {
         _datePicker.MinYear = minimumDate;
     }

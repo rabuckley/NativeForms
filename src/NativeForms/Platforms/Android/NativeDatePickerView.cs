@@ -7,7 +7,7 @@ using Calendar = Java.Util.Calendar;
 
 namespace NativeForms.Platforms.Android;
 
-public sealed class NativeDatePickerView : LinearLayout, IDateTimeOffsetUpdatable
+public sealed class NativeDatePickerView : LinearLayout, IDateTimeUpdatable
 {
     private readonly Context _context;
     private readonly NativeDatePicker _virtualView;
@@ -59,9 +59,9 @@ public sealed class NativeDatePickerView : LinearLayout, IDateTimeOffsetUpdatabl
         datePicker.Show(manager, "DatePicker");
     }
 
-    public void UpdateDate(DateTimeOffset value)
+    public void UpdateDate(DateTime value)
     {
-        _virtualView.Date = DateOnly.FromDateTime(value.DateTime);
+        _virtualView.Date = DateOnly.FromDateTime(value);
         UpdateDate(_virtualView.Date);
     }
 

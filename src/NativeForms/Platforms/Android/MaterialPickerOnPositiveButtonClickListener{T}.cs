@@ -4,7 +4,7 @@ namespace NativeForms.Platforms.Android;
 
 internal sealed class MaterialPickerOnPositiveButtonClickListener<T> : Java.Lang.Object,
     IMaterialPickerOnPositiveButtonClickListener
-    where T : IDateTimeOffsetUpdatable
+    where T : IDateTimeUpdatable
 {
     private readonly T _view;
 
@@ -20,7 +20,7 @@ internal sealed class MaterialPickerOnPositiveButtonClickListener<T> : Java.Lang
             return;
         }
 
-        var dto = DateTimeOffset.FromUnixTimeMilliseconds((long)selection);
-        _view.UpdateDate(dto);
+        var dt = DateTimeOffset.FromUnixTimeMilliseconds((long)selection).DateTime;
+        _view.UpdateDate(dt);
     }
 }
