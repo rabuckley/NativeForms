@@ -22,20 +22,20 @@ public sealed class NativeDateTimePickerView : UIDatePicker
 
     public NativeDateTimePicker VirtualView { get; set; }
 
-    public void UpdateDate(DateTimeOffset dateTime)
+    public void UpdateDate(DateTime dateTime)
     {
         Debug.WriteLine("Update date");
-        SetDate(dateTime.DateTime.ToNSDate(), true);
+        SetDate(dateTime.ToNSDate(), true);
     }
 
-    public void UpdateMinimumDate(DateTimeOffset dateTime)
+    public void UpdateMinimumDate(DateTime dateTime)
     {
-        MinimumDate = dateTime.DateTime.ToNSDate();
+        MinimumDate = dateTime.ToNSDate();
     }
 
-    public void UpdateMaximumDate(DateTimeOffset dateTime)
+    public void UpdateMaximumDate(DateTime dateTime)
     {
-        MaximumDate = dateTime.DateTime.ToNSDate();
+        MaximumDate = dateTime.ToNSDate();
     }
 
     protected override void Dispose(bool disposing)

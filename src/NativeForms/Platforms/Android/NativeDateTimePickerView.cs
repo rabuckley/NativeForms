@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace NativeForms.Platforms.Android;
 
-public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeOffsetUpdatable, ITimeOnlyUpdatable
+public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeUpdatable, ITimeOnlyUpdatable
 {
     private readonly Context _context;
     private readonly NativeDateTimePicker _virtualView;
@@ -38,10 +38,11 @@ public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeOf
 
     private void ShowDatePickerDialog(object? sender, EventArgs e)
     {
+        DateTimeOffset dto = _virtualView.DateTime;
         var datePicker = MaterialDatePicker.Builder
             .DatePicker()
             .SetInputMode(MaterialDatePicker.InputModeCalendar)
-            .SetSelection(_virtualView.DateTime.ToUnixTimeMilliseconds())
+            .SetSelection(dto.ToUnixTimeMilliseconds())
             .Build();
 
         var listener = MaterialPickerOnPositiveButtonClickListener.Create(this);
@@ -66,7 +67,7 @@ public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeOf
         dialog.Show(manager, "TimePicker");
     }
 
-    public void UpdateDate(DateTimeOffset date)
+    public void UpdateDate(DateTime date)
     {
         _virtualView.DateTime = date;
         _dateEditText.Text = date.ToString("d", CultureInfo.CurrentCulture);
@@ -76,14 +77,14 @@ public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeOf
     public void UpdateTime(TimeOnly value)
     {
         var current = _virtualView.DateTime;
-        _virtualView.DateTime = new DateTimeOffset(DateOnly.FromDateTime(current.DateTime), value, current.Offset);
+        _virtualView.DateTime = new DateTime(DateOnly.FromDateTime(current), value);
     }
 
-    public void UpdateMaximumDate(DateTimeOffset viewMaximumDateTime)
+    public void UpdateMaximumDate(DateTime viewMaximumDateTime)
     {
     }
 
-    public void UpdateMinimumDate(DateTimeOffset viewMinimumDateTime)
+    public void UpdateMinimumDate(DateTime viewMinimumDateTime)
     {
     }
 }

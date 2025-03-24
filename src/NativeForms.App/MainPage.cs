@@ -2,7 +2,7 @@
 
 public sealed partial class MainPage : ContentPage
 {
-    public DateTimeOffset DateTime
+    public DateTime DateTime
     {
         get;
         set
@@ -17,7 +17,7 @@ public sealed partial class MainPage : ContentPage
             OnPropertyChanged();
             OnPropertyChanged(nameof(DateTimeString));
         }
-    } = DateTimeOffset.Now;
+    } = DateTime.Now;
 
     public string DateTimeString => DateTime.ToString("G");
 
@@ -75,8 +75,8 @@ public sealed partial class MainPage : ContentPage
 
         var dateTimePicker = new NativeDateTimePicker
         {
-            MinimumDateTime = DateTimeOffset.Now.AddDays(-1),
-            MaximumDateTime = DateTimeOffset.Now.AddDays(1),
+            MinimumDateTime = DateTime.Now.AddDays(-1),
+            MaximumDateTime = DateTime.Now.AddDays(1),
         };
 
         dateTimePicker.SetBinding(
