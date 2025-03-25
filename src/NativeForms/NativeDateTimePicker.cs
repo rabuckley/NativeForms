@@ -14,14 +14,26 @@ public sealed partial class NativeDateTimePicker : View
         typeof(DateTime),
         typeof(NativeDateTimePicker),
         System.DateTime.MaxValue,
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        validateValue: ValidateMaximumDateTime);
+
+    private static bool ValidateMaximumDateTime(BindableObject bindable, object value)
+    {
+        return ((DateTime)value) >= ((NativeDateTimePicker)bindable).MinimumDateTime;
+    }
 
     public static readonly BindableProperty MinimumDateTimeProperty = BindableProperty.Create(
         nameof(MinimumDateTime),
         typeof(DateTime),
         typeof(NativeDateTimePicker),
         System.DateTime.MinValue,
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        validateValue: ValidateMinimumDateTime);
+
+    private static bool ValidateMinimumDateTime(BindableObject bindable, object value)
+    {
+        return ((DateTime)value) <= ((NativeDateTimePicker)bindable).MaximumDateTime;
+    }
 
     public DateTime DateTime
     {

@@ -14,14 +14,26 @@ public sealed partial class NativeTimePicker : View
         typeof(TimeOnly),
         typeof(NativeTimePicker),
         TimeOnly.MinValue,
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        validateValue: ValidateMinimumTime);
+
+    private static bool ValidateMinimumTime(BindableObject bindable, object value)
+    {
+        return ((TimeOnly)value) <= ((NativeTimePicker)bindable).MaximumTime;
+    }
 
     public static readonly BindableProperty MaximumTimeProperty = BindableProperty.Create(
         nameof(MaximumTime),
         typeof(TimeOnly),
         typeof(NativeTimePicker),
         TimeOnly.MaxValue,
-        defaultBindingMode: BindingMode.OneWay);
+        BindingMode.OneWay,
+        ValidateMaximumTime);
+
+    private static bool ValidateMaximumTime(BindableObject bindable, object value)
+    {
+        return ((TimeOnly)value) >= ((NativeTimePicker)bindable).MinimumTime;
+    }
 
     public TimeOnly Time
     {

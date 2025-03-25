@@ -14,14 +14,26 @@ public sealed partial class NativeDatePicker : View
         typeof(DateOnly),
         typeof(NativeDatePicker),
         DateOnly.MinValue,
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        validateValue: ValidateMinimumDate);
+
+    private static bool ValidateMinimumDate(BindableObject bindable, object value)
+    {
+        return ((DateOnly)value) <= ((NativeDatePicker)bindable).MaximumDate;
+    }
 
     public static readonly BindableProperty MaximumDateProperty = BindableProperty.Create(
         nameof(MaximumDate),
         typeof(DateOnly),
         typeof(NativeDatePicker),
         DateOnly.MaxValue,
-        defaultBindingMode: BindingMode.OneWay);
+        defaultBindingMode: BindingMode.OneWay,
+        validateValue: ValidateMaximumDate);
+
+    private static bool ValidateMaximumDate(BindableObject bindable, object value)
+    {
+        return ((DateOnly)value) >= ((NativeDatePicker)bindable).MinimumDate;
+    }
 
     public DateOnly Date
     {
