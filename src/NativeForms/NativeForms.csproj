@@ -9,7 +9,7 @@
         <IsPackable>true</IsPackable>
 
         <PackageId>NativeForms.Maui</PackageId>
-        <Version>0.2.0</Version>
+        <Version>0.2.1</Version>
         <Authors>Ryan Buckley</Authors>
         <Description>A set of minimal bindings to platform-specific form controls.</Description>
         <PackageTags>Maui, .NET Maui, Forms, Native</PackageTags>
