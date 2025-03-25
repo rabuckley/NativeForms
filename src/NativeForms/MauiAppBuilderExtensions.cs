@@ -11,6 +11,10 @@ public static class MauiAppBuilderExtensions
             handlers.AddHandler<NativeDateTimePicker, NativeDateTimePickerHandler>();
             handlers.AddHandler<NativeDatePicker, NativeDatePickerHandler>();
             handlers.AddHandler<NativeTimePicker, NativeTimePickerHandler>();
+
+#if IOS || MACCATALYST
+            handlers.AddHandler<Picker, NativePickerHandler>();
+#endif
         });
     }
 }

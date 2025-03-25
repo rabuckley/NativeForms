@@ -107,6 +107,16 @@ public sealed partial class MainPage : ContentPage
             NativeTimePicker.TimeProperty,
             static (MainPage p) => p.Time);
 
+        var picker = new Picker
+        {
+            ItemsSource = new List<string>
+            {
+                "Item 1",
+                "Item 2",
+                "Item 3",
+            },
+        };
+
         Content = new VerticalStackLayout
         {
             Spacing = 16,
@@ -118,6 +128,7 @@ public sealed partial class MainPage : ContentPage
                 datePicker,
                 timeLabel,
                 timePicker,
+                picker,
             }
         };
 
