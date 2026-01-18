@@ -21,20 +21,35 @@ public sealed class NativeTimePickerView : UIDatePicker
 
     public void UpdateTime(TimeOnly time)
     {
-        var components = new NSDateComponents { Hour = time.Hour, Minute = time.Minute, Second = time.Second, };
-        Date = NSCalendar.CurrentCalendar.DateFromComponents(components);
+        var referenceDate = NSDate.Now;
+        var calendar = NSCalendar.CurrentCalendar;
+        var components = calendar.Components(NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day, referenceDate);
+        components.Hour = time.Hour;
+        components.Minute = time.Minute;
+        components.Second = time.Second;
+        Date = calendar.DateFromComponents(components) ?? NSDate.Now;
     }
 
     public void UpdateMinimumTime(TimeOnly time)
     {
-        var components = new NSDateComponents { Hour = time.Hour, Minute = time.Minute, Second = time.Second, };
-        MinimumDate = NSCalendar.CurrentCalendar.DateFromComponents(components);
+        var referenceDate = NSDate.Now;
+        var calendar = NSCalendar.CurrentCalendar;
+        var components = calendar.Components(NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day, referenceDate);
+        components.Hour = time.Hour;
+        components.Minute = time.Minute;
+        components.Second = time.Second;
+        MinimumDate = calendar.DateFromComponents(components) ?? NSDate.DistantPast;
     }
 
     public void UpdateMaximumTime(TimeOnly time)
     {
-        var components = new NSDateComponents { Hour = time.Hour, Minute = time.Minute, Second = time.Second, };
-        MaximumDate = NSCalendar.CurrentCalendar.DateFromComponents(components);
+        var referenceDate = NSDate.Now;
+        var calendar = NSCalendar.CurrentCalendar;
+        var components = calendar.Components(NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day, referenceDate);
+        components.Hour = time.Hour;
+        components.Minute = time.Minute;
+        components.Second = time.Second;
+        MaximumDate = calendar.DateFromComponents(components) ?? NSDate.DistantFuture;
     }
 
     private void OnDateChanged(object? sender, EventArgs e)

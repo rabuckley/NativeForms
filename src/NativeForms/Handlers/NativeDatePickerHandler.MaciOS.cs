@@ -15,16 +15,25 @@ public partial class NativeDatePickerHandler : ViewHandler<NativeDatePicker, Nat
 
     public static void MapDate(NativeDatePickerHandler handler, NativeDatePicker view)
     {
+        if (handler.PlatformView is null)
+            return;
+
         handler.PlatformView.UpdateDate(view.Date);
     }
 
     public static void MapMaximumDate(NativeDatePickerHandler handler, NativeDatePicker view)
     {
+        if (handler.PlatformView is null)
+            return;
+
         handler.PlatformView.UpdateMaximumDate(view.MaximumDate);
     }
 
     public static void MapMinimumDate(NativeDatePickerHandler handler, NativeDatePicker view)
     {
+        if (handler.PlatformView is null)
+            return;
+
         handler.PlatformView.UpdateMinimumDate(view.MinimumDate);
     }
 }

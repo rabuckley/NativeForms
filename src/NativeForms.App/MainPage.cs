@@ -59,6 +59,25 @@ public sealed partial class MainPage : ContentPage
 
     public string TimeString => Time.ToString("T");
 
+    public DateOnly MauiDate
+    {
+        get;
+        set
+        {
+            if (field == value)
+            {
+                return;
+            }
+
+            OnPropertyChanging();
+            field = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(MauiDateString));
+        }
+    } = DateOnly.FromDateTime(DateTimeOffset.Now.DateTime);
+
+    public string MauiDateString => MauiDate.ToString();
+
     protected override void OnAppearing()
     {
         GC.Collect();
@@ -106,6 +125,18 @@ public sealed partial class MainPage : ContentPage
         timePicker.SetBinding(
             NativeTimePicker.TimeProperty,
             static (MainPage p) => p.Time);
+
+        var mauiLabel = new Label { FontSize = 20 };
+
+        mauiLabel.SetBinding(
+            Label.TextProperty,
+            static (MainPage p) => p.MauiDateString);
+
+        var mauiPicker = new DatePicker();
+
+        mauiPicker.SetBinding(
+            DatePicker.DateProperty,
+            static (MainPage p) => p.MauiDate);
 
         Content = new VerticalStackLayout
         {

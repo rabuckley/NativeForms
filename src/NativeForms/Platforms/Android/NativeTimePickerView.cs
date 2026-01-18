@@ -58,4 +58,15 @@ public sealed class NativeTimePickerView : LinearLayout, ITimeOnlyUpdatable
     public void UpdateMinimumTime(TimeOnly viewMinimumTime)
     {
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _timeEditText.Click -= ShowTimePickerDialog;
+            _timeEditText?.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 }

@@ -79,4 +79,15 @@ public sealed class NativeDatePickerView : LinearLayout, IDateTimeUpdatable
     {
         // Nothing
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _dateEditText.Click -= ShowDatePickerDialog;
+            _dateEditText?.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 }

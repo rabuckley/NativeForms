@@ -15,11 +15,22 @@ public sealed partial class NativeTimePicker : View
         typeof(NativeTimePicker),
         TimeOnly.MinValue,
         defaultBindingMode: BindingMode.OneWay,
-        validateValue: ValidateMinimumTime);
+        propertyChanged: OnMinimumTimeChanged);
 
-    private static bool ValidateMinimumTime(BindableObject bindable, object value)
+    private static void OnMinimumTimeChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((TimeOnly)value) <= ((NativeTimePicker)bindable).MaximumTime;
+        if (bindable is not NativeTimePicker picker || newValue is not TimeOnly minimumTime)
+            return;
+
+        if (minimumTime > picker.MaximumTime)
+        {
+            picker.MaximumTime = minimumTime;
+        }
+
+        if (picker.Time < minimumTime)
+        {
+            picker.Time = minimumTime;
+        }
     }
 
     public static readonly BindableProperty MaximumTimeProperty = BindableProperty.Create(
@@ -27,12 +38,23 @@ public sealed partial class NativeTimePicker : View
         typeof(TimeOnly),
         typeof(NativeTimePicker),
         TimeOnly.MaxValue,
-        BindingMode.OneWay,
-        ValidateMaximumTime);
+        defaultBindingMode: BindingMode.OneWay,
+        propertyChanged: OnMaximumTimeChanged);
 
-    private static bool ValidateMaximumTime(BindableObject bindable, object value)
+    private static void OnMaximumTimeChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((TimeOnly)value) >= ((NativeTimePicker)bindable).MinimumTime;
+        if (bindable is not NativeTimePicker picker || newValue is not TimeOnly maximumTime)
+            return;
+
+        if (maximumTime < picker.MinimumTime)
+        {
+            picker.MinimumTime = maximumTime;
+        }
+
+        if (picker.Time > maximumTime)
+        {
+            picker.Time = maximumTime;
+        }
     }
 
     public TimeOnly Time

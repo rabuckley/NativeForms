@@ -15,11 +15,22 @@ public sealed partial class NativeDatePicker : View
         typeof(NativeDatePicker),
         DateOnly.MinValue,
         defaultBindingMode: BindingMode.OneWay,
-        validateValue: ValidateMinimumDate);
+        propertyChanged: OnMinimumDateChanged);
 
-    private static bool ValidateMinimumDate(BindableObject bindable, object value)
+    private static void OnMinimumDateChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((DateOnly)value) <= ((NativeDatePicker)bindable).MaximumDate;
+        if (bindable is not NativeDatePicker picker || newValue is not DateOnly minimumDate)
+            return;
+
+        if (minimumDate > picker.MaximumDate)
+        {
+            picker.MaximumDate = minimumDate;
+        }
+
+        if (picker.Date < minimumDate)
+        {
+            picker.Date = minimumDate;
+        }
     }
 
     public static readonly BindableProperty MaximumDateProperty = BindableProperty.Create(
@@ -28,11 +39,22 @@ public sealed partial class NativeDatePicker : View
         typeof(NativeDatePicker),
         DateOnly.MaxValue,
         defaultBindingMode: BindingMode.OneWay,
-        validateValue: ValidateMaximumDate);
+        propertyChanged: OnMaximumDateChanged);
 
-    private static bool ValidateMaximumDate(BindableObject bindable, object value)
+    private static void OnMaximumDateChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((DateOnly)value) >= ((NativeDatePicker)bindable).MinimumDate;
+        if (bindable is not NativeDatePicker picker || newValue is not DateOnly maximumDate)
+            return;
+
+        if (maximumDate < picker.MinimumDate)
+        {
+            picker.MinimumDate = maximumDate;
+        }
+
+        if (picker.Date > maximumDate)
+        {
+            picker.Date = maximumDate;
+        }
     }
 
     public DateOnly Date

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Maui.Platform;
-using System.Diagnostics;
 using UIKit;
 
 namespace NativeForms.Platforms.iOS;
@@ -16,7 +15,6 @@ public sealed class NativeDateTimePickerView : UIDatePicker
 
     private void OnDateChanged(object? sender, EventArgs e)
     {
-        Debug.WriteLine("Date changed");
         VirtualView.DateTime = Date.ToDateTime();
     }
 
@@ -24,7 +22,6 @@ public sealed class NativeDateTimePickerView : UIDatePicker
 
     public void UpdateDate(DateTime dateTime)
     {
-        Debug.WriteLine("Update date");
         SetDate(dateTime.ToNSDate(), true);
     }
 

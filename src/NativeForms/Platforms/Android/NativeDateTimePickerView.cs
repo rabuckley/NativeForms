@@ -78,6 +78,7 @@ public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeUp
     {
         var current = _virtualView.DateTime;
         _virtualView.DateTime = new DateTime(DateOnly.FromDateTime(current), value);
+        _timeEditText.Text = value.ToString("t", CultureInfo.CurrentCulture);
     }
 
     public void UpdateMaximumDate(DateTime viewMaximumDateTime)
@@ -86,5 +87,18 @@ public sealed partial class NativeDateTimePickerView : LinearLayout, IDateTimeUp
 
     public void UpdateMinimumDate(DateTime viewMinimumDateTime)
     {
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _dateEditText.Click -= ShowDatePickerDialog;
+            _timeEditText.Click -= ShowTimePickerDialog;
+            _dateEditText?.Dispose();
+            _timeEditText?.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 }

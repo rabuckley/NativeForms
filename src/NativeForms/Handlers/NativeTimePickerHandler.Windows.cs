@@ -27,6 +27,9 @@ public partial class NativeTimePickerHandler : ViewHandler<NativeTimePicker, Tim
 
     public static void MapTime(NativeTimePickerHandler handler, NativeTimePicker view)
     {
+        if (handler.PlatformView is null)
+            return;
+
         handler.PlatformView.Time = view.Time.ToTimeSpan();
     }
 

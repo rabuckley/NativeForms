@@ -6,33 +6,55 @@ public sealed partial class NativeDateTimePicker : View
         nameof(DateTime),
         typeof(DateTime),
         typeof(NativeDateTimePicker),
-        System.DateTime.Now,
+        default(DateTime),
         defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty MaximumDateTimeProperty = BindableProperty.Create(
         nameof(MaximumDateTime),
         typeof(DateTime),
         typeof(NativeDateTimePicker),
-        System.DateTime.MaxValue,
+        DateTime.MaxValue,
         defaultBindingMode: BindingMode.OneWay,
-        validateValue: ValidateMaximumDateTime);
+        propertyChanged: OnMaximumDateTimeChanged);
 
-    private static bool ValidateMaximumDateTime(BindableObject bindable, object value)
+    private static void OnMaximumDateTimeChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((DateTime)value) >= ((NativeDateTimePicker)bindable).MinimumDateTime;
+        if (bindable is not NativeDateTimePicker picker || newValue is not DateTime maximumDateTime)
+            return;
+
+        if (maximumDateTime < picker.MinimumDateTime)
+        {
+            picker.MinimumDateTime = maximumDateTime;
+        }
+
+        if (picker.DateTime > maximumDateTime)
+        {
+            picker.DateTime = maximumDateTime;
+        }
     }
 
     public static readonly BindableProperty MinimumDateTimeProperty = BindableProperty.Create(
         nameof(MinimumDateTime),
         typeof(DateTime),
         typeof(NativeDateTimePicker),
-        System.DateTime.MinValue,
+        DateTime.MinValue,
         defaultBindingMode: BindingMode.OneWay,
-        validateValue: ValidateMinimumDateTime);
+        propertyChanged: OnMinimumDateTimeChanged);
 
-    private static bool ValidateMinimumDateTime(BindableObject bindable, object value)
+    private static void OnMinimumDateTimeChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        return ((DateTime)value) <= ((NativeDateTimePicker)bindable).MaximumDateTime;
+        if (bindable is not NativeDateTimePicker picker || newValue is not DateTime minimumDateTime)
+            return;
+
+        if (minimumDateTime > picker.MaximumDateTime)
+        {
+            picker.MaximumDateTime = minimumDateTime;
+        }
+
+        if (picker.DateTime < minimumDateTime)
+        {
+            picker.DateTime = minimumDateTime;
+        }
     }
 
     public DateTime DateTime

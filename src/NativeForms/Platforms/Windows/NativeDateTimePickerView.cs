@@ -54,12 +54,12 @@ public sealed partial class NativeDateTimePickerView : Grid, IDisposable
 
     public void UpdateMaximumDate(DateTime maximumDate)
     {
-        _datePicker.MaxYear = maximumDate;
+        _datePicker.MaxYear = new DateTimeOffset(maximumDate);
     }
 
     public void UpdateMinimumDate(DateTime minimumDate)
     {
-        _datePicker.MinYear = minimumDate;
+        _datePicker.MinYear = new DateTimeOffset(minimumDate);
     }
 
     public void Dispose()

@@ -20,7 +20,7 @@ internal sealed class MaterialPickerOnPositiveButtonClickListener<T> : Java.Lang
             return;
         }
 
-        var dt = DateTimeOffset.FromUnixTimeMilliseconds((long)selection).DateTime;
+        var dt = DateTimeOffset.FromUnixTimeMilliseconds((long)selection).UtcDateTime;
         _view.UpdateDate(dt);
     }
 }
