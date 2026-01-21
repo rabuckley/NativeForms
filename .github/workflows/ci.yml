@@ -1,4 +1,4 @@
-name: Run Tests
+name: CI
 
 on:
   push:
@@ -7,8 +7,19 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    runs-on: windows-latest
+  build-and-test:
+    name: Build and Test - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target-frameworks: "net10.0;net10.0-windows10.0.19041.0"
+          - os: macos-latest
+            target-frameworks: "net10.0;net10.0-ios;net10.0-maccatalyst"
+          - os: ubuntu-latest
+            target-frameworks: "net10.0;net10.0-android"
 
     steps:
       - uses: actions/checkout@v5
@@ -21,14 +32,20 @@ jobs:
       - name: Install MAUI workload
         run: dotnet workload install maui
 
-      - name: Restore dependencies
-        run: dotnet restore NativeForms.slnx
+      - name: Restore library dependencies
+        run: dotnet restore src/NativeForms/NativeForms.csproj
 
-      - name: Build
-        run: dotnet build NativeForms.slnx --no-restore --configuration Release
+      - name: Build library
+        run: dotnet build src/NativeForms/NativeForms.csproj --no-restore --configuration Release /p:TargetFrameworks="${{ matrix.target-frameworks }}"
 
-      - name: Test
-        run: dotnet test NativeForms.slnx --no-build --verbosity normal --configuration Release --collect:"XPlat Code Coverage"
+      - name: Restore test dependencies
+        run: dotnet restore test/NativeForms.Tests/NativeForms.Tests.csproj
+
+      - name: Build tests
+        run: dotnet build test/NativeForms.Tests/NativeForms.Tests.csproj --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test test/NativeForms.Tests/NativeForms.Tests.csproj --no-build --verbosity normal --configuration Release --collect:"XPlat Code Coverage"
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v4
