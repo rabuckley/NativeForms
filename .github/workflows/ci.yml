@@ -29,14 +29,14 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Install MAUI workload
-        run: dotnet workload install maui
+      - name: Restore workloads
+        run: dotnet workload restore src/NativeForms/NativeForms.csproj
 
       - name: Restore library dependencies
         run: dotnet restore src/NativeForms/NativeForms.csproj
 
       - name: Build library
-        run: dotnet build src/NativeForms/NativeForms.csproj --no-restore --configuration Release /p:TargetFrameworks="${{ matrix.target-frameworks }}"
+        run: dotnet build src/NativeForms/NativeForms.csproj --no-restore --configuration Release '/p:TargetFrameworks=${{ matrix.target-frameworks }}'
 
       - name: Restore test dependencies
         run: dotnet restore test/NativeForms.Tests/NativeForms.Tests.csproj
